@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habla - Juego de Preguntas</title>
+  <style>
+    body {
+      font-family:'Montserrat', sans-serif;
+      background-color: #000000;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #F5F5F5;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+        color: #000000;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 36px; 
+        text-align: center; 
+        letter-spacing: 2px; 
+        margin-bottom: 20px; 
+    }
+
+    h1:hover {
+        font-family: 'Roboto Mono', monospace;
+        color: #f70302;
+    }
+
+    h2:hover {
+        color: #f70302;
+        border: 2px solid #f70302;
+        transition: background-color 0.3s, color 0.3s;
+        
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-family: 'Roboto Mono', monospace;
+      border: 2px solid #000000;
+      border-radius: 4px;
+      padding: 10px 30px;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: #000000;
+      font-family:'Montserrat', sans-serif;;
+      font-weight: bold;
+      color: #F5F5F5;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    button:hover {
+        background-color: #f70302;
+        color: #FFFFFF;
+        }
+
+  </style>
+</head>
+<body>
+
+<audio id="audio" src="12audio.mp3"></audio>
+
+<div class="container">
+  <h1>MP - Muchas Preguntas </h1>
+  <h3>Un juego de preguntas fascinantes para charlas interesantes. </h3>
+
+  <div id="questionContainer">
+    <h3>Pregunta 1</h3>
+    <h2>¿Cuál es tu libro favorito y por qué?</h2>
+  </div>
+
+  <button onclick="nextQuestion()">Siguiente Pregunta</button>
+</div>
+
+
+<script>
+  const questions = [
+    "¿Cuál es tu rama favorita de la ciencia y por qué?",
+    "Hablando de descubrimientos científicos, ¿cuál te parece el más fascinante?",
+    "Si pudieras ser un científico famoso por un día, ¿quién serías y por qué?",
+    "¿Cómo ves el papel de la ciencia en la sociedad actual?",
+    "Si pudieras hacer una contribución significativa a la ciencia, ¿en qué campo sería?",
+    "¿Cuál es tu teoría científica favorita y por qué te llama la atención?",
+    "Hablando de avances tecnológicos, ¿cuál crees que ha tenido un mayor impacto?",
+    "¿Crees que la ciencia y la religión pueden coexistir?",
+    "¿Cuál es tu opinión sobre la ingeniería genética y la modificación de organismos?",
+    "Si pudieras viajar en el tiempo, ¿a qué período histórico te gustaría ir desde el punto de vista científico?",
+    "¿Qué importancia le das a la exploración espacial y a la colonización de otros planetas?",
+    "¿Cuál es tu experimento científico ideal si no hubiera restricciones éticas o financieras?",
+    "¿Cómo crees que la ciencia puede abordar los desafíos ambientales?",
+    "¿Cuál es tu invento tecnológico favorito y por qué?",
+    "Si fueras un científico en un mundo de ciencia ficción, ¿qué descubrimiento realizarías?",
+    "¿Cuál es tu perspectiva sobre la inteligencia artificial y su futuro?",
+    "Hablando de biología, ¿qué aspecto te parece más asombroso o intrigante?",
+    "Si pudieras tener un superpoder basado en principios científicos, ¿cuál sería?",
+    "¿Cómo crees que la ciencia puede influir en la mejora de la calidad de vida de las personas?",
+    "¿Cuál es tu visión sobre la ética en la investigación científica?",
+    "Si pudieras hacer una pregunta a cualquier científico, viva o fallecido, ¿cuál sería?",
+    "¿Cómo influye la ciencia en tu vida diaria sin que te des cuenta?",
+    "¿Cuál es tu opinión sobre la clonación humana?",
+    "Si tuvieras que explicar un concepto científico a un niño, ¿cuál elegirías?",
+    "¿Cuál es tu documental científico favorito y por qué te impactó?",
+    "Hablando de salud, ¿qué avance médico te parece más prometedor?",
+    "Si pudieras formular una teoría científica, ¿sobre qué sería?",
+    "¿Cómo crees que la ciencia puede abordar los desafíos alimentarios globales?",
+    "¿Qué avance científico te gustaría ver en tu vida?",
+    "¿Cómo definirías la economía y su impacto en la sociedad?",
+    "Hablando de sistemas económicos, ¿cuál crees que es el más efectivo?",
+    "¿Cómo ves la relación entre la economía y el medio ambiente?",
+    "Si fueras un líder económico, ¿cuál sería tu enfoque para impulsar el crecimiento?",
+    "¿Cuál es tu opinión sobre la globalización y su impacto en la economía?",
+    "¿Cómo crees que la tecnología está transformando el panorama económico?",
+    "¿Cuál es tu perspectiva sobre la desigualdad económica?",
+    "Si pudieras proponer una política económica, ¿cuál sería y por qué?",
+    "¿Cuál es tu opinión sobre la deuda pública y su gestión?",
+    "¿Cómo ves el papel de los gobiernos en la regulación de la economía?",
+    "Si fueras un emprendedor, ¿en qué industria te gustaría invertir?",
+    "¿Cómo crees que la inteligencia artificial afectará el empleo y la economía en general?",
+    "¿Cuál es tu postura sobre la renta básica universal?",
+    "Si tuvieras que manejar una crisis económica, ¿cuál sería tu estrategia?",
+    "¿Qué importancia le das a la educación financiera en la sociedad?",
+    "¿Cómo crees que la economía puede abordar los desafíos de la pobreza?",
+    "Hablando de inversiones, ¿en qué área te sentirías más cómodo invirtiendo?",
+    "¿Cuál es tu opinión sobre la economía colaborativa y los nuevos modelos de negocio?",
+    "Si pudieras cambiar un aspecto del sistema económico actual, ¿cuál sería?",
+    "¿Cómo influye la economía en las decisiones diarias de las personas?",
+    "¿Cuál es tu perspectiva sobre la sostenibilidad en los negocios?",
+    "Si fueras un asesor económico, ¿qué consejo darías para estimular el crecimiento?",
+    "¿Cómo crees que la educación económica puede mejorar la movilidad social?",
+    "¿Cuál es tu opinión sobre la automatización y su impacto en el empleo?",
+    "Si tuvieras que impulsar un proyecto económico en tu comunidad, ¿cuál sería?",
+    "¿Cómo ves el papel de la ética en las decisiones económicas?",
+    "Hablando de comercio internacional, ¿cómo afecta a las economías locales?",
+    "Si pudieras diseñar un nuevo modelo económico, ¿cuál sería su característica principal?",
+    "¿Cómo crees que la economía puede abordar los desafíos de la crisis climática?",
+    "¿Cuál es tu perspectiva sobre la relación entre el consumo y la sostenibilidad económica?",
+    "¿Cuál es tu opinión sobre el sistema político de tu país?",
+    "¿Cómo crees que los ciudadanos pueden influir en la política?",
+    "¿Cuál consideras que es el mayor desafío político en la actualidad?",
+    "¿Estás involucrado/a activamente en la política? ¿Por qué sí o por qué no?",
+    "Hablando de líderes políticos, ¿quién admiras y por qué?",
+    "¿Cuál es tu postura sobre los movimientos sociales y su impacto en la política?",
+    "Si pudieras cambiar una política específica, ¿cuál sería y por qué?",
+    "¿Cómo defines la democracia y qué importancia tiene para ti?",
+    "Si pudieran cenar con cualquier personaje ficticio, ¿quién sería y por qué?",
+    "¿Cuál es el logro personal de tu pareja que más admiras?",
+    "Si tuvieran que describir su relación con una canción, ¿cuál sería?",
+    "Hablen sobre un lugar especial que les gustaría visitar juntos y por qué.",
+    "Si pudieran cambiar de lugar por un día, ¿qué aspecto de la vida del otro explorarían?",
+    "¿Tienen algún proyecto o sueño conjunto que les emocione?",
+    "¿Qué actividad les gustaría aprender o hacer juntos en el futuro?",
+    "Si pudieran tener una habilidad mágica, ¿cuál elegirían y cómo la usarían en su relación?",
+    "¿Cuál es el recuerdo más divertido que tienen juntos?",
+    "Hablen sobre un desafío que hayan superado como pareja y cómo lo lograron.",
+    "¿Cómo se motivan mutuamente cuando enfrentan situaciones difíciles?",
+    "¿Qué libro, película o serie les gustaría ver juntos?",
+    "Si tuvieran que describir su relación con una comida, ¿cuál sería y por qué?",
+    "¿Cuál es la tradición más especial que han creado como pareja?",
+    "Si pudieran tener una mascota inusual, ¿cuál sería y qué nombre le pondrían?",
+    "Hablen sobre algo nuevo que les gustaría experimentar juntos.",
+    "¿Cómo han visto que han crecido como pareja desde que se conocieron?",
+    "Si fueran a escribir un libro juntos, ¿cuál sería el género y la trama?",
+    "¿Cuál es el gesto más pequeño pero más significativo que han hecho el uno por el otro?",
+    "Hablen sobre una meta personal que cada uno tenga y cómo pueden apoyarse mutuamente.",
+    "Si pudieran tener una casa en cualquier lugar del mundo, ¿dónde sería y por qué?",
+    "¿Qué cualidad única de su pareja valoran más?",
+    "Si tuvieran que diseñar su propio día perfecto juntos, ¿cómo sería?",
+    "¿Cómo se relajan y disfrutan el tiempo juntos?",
+    "Hablen sobre un logro individual que les gustaría compartir con el otro.",
+    "¿Cuál es la lección más valiosa que han aprendido como pareja?",
+    "Si pudieran tener una conversación con su 'yo' del pasado, ¿qué consejo le darían sobre el amor?",
+    "¿Cuál es la película que les hace reír cada vez que la ven?",
+    "Hablen sobre un momento en el que sintieron una conexión profunda el uno con el otro.",
+    "Si pudieran tener una habilidad especial para resolver cualquier problema, ¿cuál sería?",
+    "¿Cuál es el lugar más romántico que han visitado juntos?",
+    "Si fueran a crear un proyecto artístico juntos, ¿qué sería?",
+    "Hablen sobre algo que siempre quisieron hacer pero aún no han intentado como pareja.",
+    "¿Cómo equilibran su tiempo entre actividades individuales y tiempo juntos?",
+    "Si tuvieran que describir el amor en tres palabras, ¿cuáles serían?",
+    "Hablen sobre una pequeña rutina diaria que disfruten hacer juntos.",
+    "¿Cuál es el cumplido más significativo que han recibido el uno del otro?",
+    "Si tuvieran que elegir un superpoder para su pareja, ¿cuál sería y por qué?",
+    "¿Cuál es su película o serie favorita para ver juntos?",
+    "Si pudieran retroceder en el tiempo y revivir un día de su relación, ¿cuál elegirían?",
+    "Hablen sobre algo que les sorprenda gratamente del otro.",
+    "Si tuvieran que crear una tradición nueva, ¿cuál sería?",
+    "¿Cuál es el consejo más valioso que han recibido sobre el amor?",
+    "Hablen sobre una meta a largo plazo que tengan como pareja.",
+    "Si pudieran compartir un hobby o actividad nueva, ¿cuál sería?",
+    "¿Cuál es la forma más creativa en la que se han dicho 'te amo'?",
+    "Hablen sobre un lugar especial que les gustaría explorar juntos.",
+    "Si fueran a escribir cartas de amor el uno al otro, ¿qué contenido incluirían?",
+    "¿Cuál es el desafío más grande que han enfrentado como pareja y cómo lo superaron?",
+    "Hablen sobre algo que les emocione del futuro juntos.",
+    "Si tuvieran que elegir una palabra que describa su relación, ¿cuál sería?",
+    "¿Cuál es tu recuerdo favorito que compartimos juntos?",
+    "¿Qué es lo que más te gusta de nuestra relación?",
+    "¿Cómo defines el éxito en una relación?",
+    "¿Hay alguna tradición que te gustaría establecer juntos?",
+    "¿Cuál es tu película romántica favorita y por qué?",
+    "¿Cómo manejas los desacuerdos o conflictos en nuestra relación?",
+    "¿Qué es lo que más valoras en nuestra conexión?",
+    "¿Cuál es tu canción favorita que nos recuerda a nosotros?",
+    "¿Qué es lo que más te hace sentir amado/a?",
+    "¿Hay algo en lo que sientes que podríamos mejorar como pareja?",
+    "¿Cuál es tu sueño compartido para el futuro?",
+    "¿Cómo te gustaría celebrar nuestro aniversario?",
+    "¿Cuál es tu idea de una cita perfecta?",
+    "¿Qué importancia le das a la comunicación en nuestra relación?",
+    "¿Cómo manejamos el tiempo para nosotros en medio de nuestras agendas ocupadas?",
+    "¿Hay algún lugar especial al que te gustaría viajar juntos?",
+    "¿Cuál es tu mayor desafío como pareja y cómo lo enfrentamos?",
+    "¿Cómo te sientes acerca de tener metas financieras compartidas?",
+    "¿Cuál es tu amor platónico y por qué?",
+    "¿Cómo manejas el estrés y cómo puedo apoyarte mejor durante esos momentos?",
+    "¿Cuál es tu recuerdo más feliz de nosotros hasta ahora?",
+    "¿Tienes alguna meta personal que afecte nuestra relación?",
+    "¿Cómo podemos mantener viva la chispa en nuestra relación a lo largo del tiempo?",
+    "¿Cuál es tu opinión sobre tener tiempo separados en una relación?",
+    "¿Cómo te sientes acerca de expresar afecto en público?",
+    "¿Hay alguna actividad que te gustaría que hiciéramos juntos más a menudo?",
+    "¿Qué significa para ti comprometerse en una relación?",
+    "¿Cómo manejas la confianza en nuestra relación?",
+    "¿Cuál es tu forma favorita de mostrar aprecio el uno al otro?",
+    "¿Qué es lo que más te gusta de nuestra vida sexual?",
+    "¿Hay algún hábito mío que te gustaría que cambiara?",
+    "¿Cómo podemos apoyarnos mutuamente en el logro de metas individuales?",
+    "¿Qué significa para ti ser una pareja exitosa?",
+    "¿Cómo podemos mantener viva la emoción y la novedad en nuestra relación?",
+    "¿Cuál es tu opinión sobre tener tiempo separados en una relación?",
+    "¿Cómo te sientes acerca de expresar afecto en público?",
+    "¿Hay alguna actividad que te gustaría que hiciéramos juntos más a menudo?",
+    "¿Qué significa para ti comprometerse en una relación?",
+    "¿Cómo manejas la confianza en nuestra relación?",
+    "¿Cuál es tu forma favorita de mostrar aprecio el uno al otro?",
+    "¿Qué es lo que más te gusta de nuestra vida sexual?",
+    "¿Hay algún hábito mío que te gustaría que cambiara?",
+    "¿Cómo podemos apoyarnos mutuamente en el logro de metas individuales?",
+    "¿Qué significa para ti ser una pareja exitosa?",
+    "¿Cómo podemos mantener viva la emoción y la novedad en nuestra relación?",
+    "¿Cuál es tu opinión sobre tener tiempo separados en una relación?",
+    "¿Cómo te sientes acerca de expresar afecto en público?",
+    "¿Hay alguna actividad que te gustaría que hiciéramos juntos más a menudo?",
+    "¿Qué significa para ti comprometerse en una relación?",
+    "¿Cómo manejas la confianza en nuestra relación?",
+    "¿Cuál es tu forma favorita de mostrar aprecio el uno al otro?",
+    "¿Qué es lo que más te gusta de nuestra vida sexual?",
+    "¿Hay algún hábito mío que te gustaría que cambiara?",
+    "¿Cómo podemos apoyarnos mutuamente en el logro de metas individuales?",
+    "¿Qué significa para ti ser una pareja exitosa?",
+    "¿Cómo podemos mantener viva la emoción y la novedad en nuestra relación?",
+    "¿Cuál es tu opinión sobre tener tiempo separados en una relación?",
+    "¿Cómo te sientes acerca de expresar afecto en público?",
+    "¿Hay alguna actividad que te gustaría que hiciéramos juntos más a menudo?",
+    "¿Qué significa para ti comprometerse en una relación?",
+    "¿Cómo manejas la confianza en nuestra relación?",
+    "¿Cuál es tu forma favorita de mostrar aprecio el uno al otro?",
+    "¿Qué es lo que más te gusta de nuestra vida sexual?",
+    "¿Hay algún hábito mío que te gustaría que cambiara?",
+    "¿Cómo podemos apoyarnos mutuamente en el logro de metas individuales?",
+    "¿Qué significa para ti ser una pareja exitosa?",
+    "¿Cómo podemos mantener viva la emoción y la novedad en nuestra relación?",
+    "¿Cuál es tu opinión sobre tener tiempo separados en una relación?",
+    "¿Cómo te sientes acerca de expresar afecto en público?",
+    "¿Hay alguna actividad que te gustaría que hiciéramos juntos más a menudo?",
+    "¿Qué significa para ti comprometerse en una relación?",
+    "¿Cómo manejas la confianza en nuestra relación?",
+    "¿Cuál es tu forma favorita de mostrar aprecio el uno al otro?",
+    "¿Qué es lo que más te gusta de nuestra vida sexual?",
+    "¿Hay algún hábito mío que te gustaría que cambiara?",
+    "¿Cómo podemos apoyarnos mutuamente en el logro de metas individuales?",
+    "¿Qué significa para ti ser una pareja exitosa?",
+    "¿Cómo podemos mantener viva la emoción y la novedad en nuestra relación?",
+    "¿Cuál es tu opinión sobre tener tiempo separados en una relación?",
+    "¿Cómo te sientes acerca de expresar afecto en público?",
+    "¿Hay alguna actividad que te gustaría que hiciéramos juntos más a menudo?",
+    "¿Qué significa para ti comprometerse en una relación?",
+    "¿Cómo manejas la confianza en nuestra relación?",
+    "¿Cuál es tu forma favorita de mostrar aprecio el uno al otro?",
+    "¿Qué es lo que más te gusta de nuestra vida sexual?",
+    "¿Hay algún hábito mío que te gustaría que cambiara?",
+    "¿Cómo podemos apoyarnos mutuamente en el logro de metas individuales?",
+    "¿Qué significa para ti ser una pareja exitosa?",
+    "¿Cómo podemos mantener viva la emoción y la novedad en nuestra relación?",
+    "¿Cuál es tu perspectiva sobre el tiempo y cómo lo gestionas?",
+    "¿Qué opinas sobre la idea de vivir en el presente?",
+    "¿Cuál es tu experiencia más significativa de aprendizaje?",
+    "¿Qué te hace sentir agradecido/a en la vida?",
+    "¿Cómo manejas la presión social y las expectativas externas?",
+    "¿Cuál es tu mayor miedo y cómo lo enfrentas en tu vida?",
+    "¿Cómo defines el amor y qué importancia tiene en tu vida?",
+    "¿Cuál es tu filosofía sobre el perdón y la reconciliación?",
+    "¿En qué medida crees que las experiencias difíciles pueden fortalecernos?",
+    "¿Cuál es tu opinión sobre la conexión mente-cuerpo y su impacto en la salud?",
+    "¿Cómo experimentas y manejas la soledad en tu vida?",
+    "¿Cuál es tu perspectiva sobre la autenticidad y ser fiel a uno mismo/a?",
+    "¿Cómo ha influido tu infancia en la persona que eres hoy?",
+    "¿Cuál es tu relación con la espiritualidad y la búsqueda de significado?",
+    "¿Cómo defines la felicidad y qué acciones tomas para cultivarla?",
+    "¿En qué medida crees en el destino o en el libre albedrío?",
+    "¿Cómo manejas la pérdida y el duelo en tu vida?",
+    "¿Cuál es tu opinión sobre la importancia de la vulnerabilidad en las relaciones?",
+    "¿Cómo influye tu identidad cultural en tus perspectivas y decisiones?",
+    "¿Cuál es tu visión sobre la conexión humana y las relaciones auténticas?",
+    "¿Cómo encuentras equilibrio entre el trabajo y la vida personal?",
+    "¿Cuál es tu actitud hacia el cambio y la adaptabilidad?",
+    "¿Qué papel juegan las metas a largo plazo en tu sentido de dirección?",
+    "¿Cuál es tu relación con la gratitud y cómo la practicas diariamente?",
+    "¿Cómo definirías la resiliencia y cómo la aplicas en tu vida?",
+    "¿Cuál es tu perspectiva sobre la importancia de la autorreflexión?",
+    "¿En qué medida crees que las experiencias desafiantes pueden transformarnos?",
+    "¿Cómo influyen tus valores en la toma de decisiones cotidianas?",
+    "¿Cuál es tu relación con el tiempo y la gestión del mismo?",
+    "¿Cómo experimentas y manejas el estrés emocional en tu vida?",
+    "¿Cuál es tu actitud hacia la autoaceptación y el amor propio?",
+    "¿Cómo encuentras significado y propósito en tu día a día?",
+    "¿En qué medida crees que las adversidades pueden conducir al crecimiento personal?",
+    "¿Cuál es tu visión sobre la importancia del silencio y la reflexión?",
+    "¿Cómo defines el éxito personal y qué medidas tomas para alcanzarlo?",
+    "¿Cómo manejas las críticas y los comentarios negativos?",
+    "¿Cuál es tu lugar favorito en la naturaleza y por qué?",
+    "¿Tienes alguna tradición o ritual que te haga sentir conectado/a contigo mismo/a?",
+    "¿Cómo te mantienes motivado/a cuando enfrentas desafíos?",
+    "¿Cuál es tu opinión sobre la globalización y sus efectos?",
+    "¿Prefieres la ciudad o el campo para vivir y por qué?",
+    "¿Cuál es tu deporte o actividad física favorita?",
+    "¿Tienes alguna meta de viaje que te gustaría cumplir en el futuro?",
+    "¿Cómo describirías tu relación con la tecnología en la vida diaria?",
+    "¿Qué libro te ha impactado más y por qué?",
+    "¿Cómo manejas las diferencias de opinión en una conversación?",
+    "¿Cuál es tu forma favorita de expresar creatividad?",
+    "¿Cuál es tu recuerdo más feliz y por qué es tan especial?",
+    "¿Dónde te gustaría vivir? ¿En qué país, ciudad, etc.?",
+    "¿En qué lugar transcurrirían tus vacaciones perfectas?",
+    "¿Me puedes describir tu dormitorio? ¿Qué elementos son importantes para ti?",
+    "¿A qué personaje histórico te gustaría entrevistar? ¿Por qué?",
+    "¿Qué tipo de ropa no llevarías puesta en ningún caso?",
+    "¿Cuáles son tus tres bandas de música favoritas?",
+    "¿Qué es para ti la libertad? ¿Cómo la defines?",
+    "¿Cuál es el aspecto sobre ti que más te gusta?",
+    "¿Cuál es tu libro favorito? ¿Por qué lo consideras especial?",
+    "¿Cuál es tu meta o sueño más grande en la vida? ¿Qué te gustaría lograr?",
+    "¿Cuál es tu película o serie favorita y por qué la disfrutas tanto?",
+    "¿Tienes alguna tradición familiar que te encante?",
+    "¿Cómo defines el éxito en tu vida?",
+    "¿Cuál es tu recuerdo favorito de la infancia?",
+    "Si pudieras tener cualquier habilidad o superpoder, ¿cuál elegirías y por qué?",
+    "¿Qué te hace reír más fácilmente?",
+    "Si tuvieras que cenar con cualquier persona, viva o muerta, ¿quién sería?",
+    "¿Tienes alguna superstición o creencia peculiar?",
+    "¿Cuál es tu comida favorita?",
+    "¿Hay algún lugar al que siempre quisieras volver?",
+    "¿Cómo te describirías en tres palabras?",
+    "¿Qué actividad te relaja o te ayuda a desconectar?",
+    "¿Si pudieras cambiar algo en el mundo, qué sería?",
+    "¿Tienes alguna colección o pasatiempo que te apasione?",
+    "¿Cuál es la lección más importante que has aprendido en la vida hasta ahora?",
+    "¿Prefieres el amanecer o el atardecer?",
+    "¿Cuál es tu estación del año favorita y por qué?",
+    "¿Hay alguna habilidad que siempre quisiste aprender?",
+    "¿Cómo manejas el estrés o la presión?",
+    "¿Qué valoras más en una amistad o relación?",
+    "¿Qué opinas sobre el significado de la vida?",
+    "¿Cuál es tu punto de vista sobre la muerte y qué crees que sucede después?",
+    "¿Cuál es tu opinión sobre la situación política actual en el mundo?",
+    "¿Hay alguna ley o norma que cambiarías si tuvieras el poder?",
+    "¿Cuál es tu opinión sobre la igualdad de género?",
+    "¿Tienes alguna filosofía de vida que sigas?",
+    "¿Cómo manejas el estrés en situaciones difíciles?",
+    "¿Qué papel juegan la empatía y la compasión en tu vida?",
+    "¿Cuál es tu opinión sobre la inteligencia artificial y su impacto en la sociedad?",
+    "¿Prefieres la estabilidad o la aventura en tu vida cotidiana?",
+    "¿Cuál es tu canción favorita y por qué tiene un significado especial para ti?",
+    "¿Tienes alguna habilidad artística o creativa que disfrutes practicando?",
+    "¿Cuál es tu película preferida que te haya hecho reflexionar profundamente?",
+    "¿Qué importancia le das a la espiritualidad en tu vida?",
+    "Si estuvieras atrapado en una película de terror, ¿qué harías para sobrevivir?",
+    "¿Tienes alguna experiencia paranormal que hayas vivido o te hayan contado?",
+    "Si pudieras ser un monstruo clásico, ¿cuál serías y por qué?",
+    "¿Cuál es tu peor pesadilla y has tenido alguna vez sueños recurrentes?",
+    "¿Cómo reaccionarías si te encuentras con un alienígena?",
+    "Si fueras un vampiro, ¿a quién elegirías para ser tu compañero de inmortalidad?",
+    "¿Qué harías si te encuentras con un muerto viviente?",
+    "¿Cuál es el objeto más espeluznante que tienes en tu casa?",
+    "¿Cuál es la historia de terror más aterradora que hayas escuchado?",
+    "Si pudieras pasar una noche en cualquier lugar abandonado, ¿dónde sería?",
+    "¿Qué harías si te despiertas en medio de la noche y sientes que no estás solo?",
+    "Si tuvieras que pasar la noche en un bosque oscuro, ¿qué llevarías contigo?",
+    "¿Cuál es tu película de terror favorita y por qué te asustó tanto?",
+    "Si pudieras ser un fantasma, ¿a quién asustarías primero?",
+    "¿Cuál es el chiste más gracioso que hayas escuchado?",
+    "Si fueras un monstruo de película cómica, ¿cuál sería tu truco para asustar?",
+    "¿Tienes alguna superstición divertida que sigas?",
+    "¿Qué harías si te encontraras con tu versión zombi?",
+    "Si pudieras tener una mascota monstruosa, ¿cuál sería?",
+    "¿Cuál es la peor broma que te hayan hecho?",
+    "Si fueras un extraterrestre visitando la Tierra, ¿qué pensarías de los humanos?",
+    "¿Cuál es el chiste que siempre te hace reír incluso después de escucharlo muchas veces?",
+    "Si tuvieras que sobrevivir en un apocalipsis zombie, ¿cuál sería tu plan?",
+    "¿Cuál es la película de comedia más divertida que hayas visto?",
+    "Si pudieras ser invisible por un día, ¿qué travesuras harías?",
+    "¿Cuál es tu historia de chistes más embarazosa?",
+    "Si fueras un monstruo en una película de comedia, ¿cuál sería tu debilidad cómica?",
+    "¿Qué harías si te encuentras con un payaso espeluznante en medio de la noche?",
+    "¿Cómo definirías el éxito y qué metas tienes para alcanzarlo?"
+    // Agrega más preguntas según sea necesario
+];
+
+const audioUrl = "12audio.mp3"; // Reemplaza con la ruta correcta de tu archivo de audio
+
+function nextQuestion() {
+  const randomIndex = Math.floor(Math.random() * questions.length);
+
+  // Muestra la pregunta en el contenedor
+  const questionContainer = document.getElementById('questionContainer');
+  questionContainer.innerHTML = `<h3>Pregunta ${randomIndex + 1}</h3><h2>${questions[randomIndex]}</h2>`;
+
+  // Reproduce el audio
+  playAudio();
+}
+
+function playAudio() {
+  const audio = new Audio(audioUrl);
+  audio.play();
+}
+
+// Llama a nextQuestion() al cargar la página para mostrar la primera pregunta
+nextQuestion();
+
+</script>
+
+</body>
+</html>
